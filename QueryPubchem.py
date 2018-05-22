@@ -9,9 +9,9 @@ class QueryPubChem:
         self.biothings_explorer = QueryBioThingsExplorer()
 
     def get_chembl_ids_for_drug(self, drug_name):
-        mychem_results = self.biothings_explorer.send_query_get(input_prefix='drugname', output_prefix="chembl.compound", input_value=drug_name)
+        mychem_results = self.biothings_explorer.send_query_get(input_prefix='drugname', output_prefix="drugname", input_value=drug_name)
         if mychem_results:
-            chembl_ids = set([_doc['output']['object']['id'].split(':')[-1] for _doc in mychem_results['data']])
+            chembl_ids = set([_doc['output']['object']['id'].split(':')[-1] for _doc in mychem_results['data'] if _doc['output']['object']['id'].startswith('drugname:CHEMBL')])
             return chembl_ids
         else:
             return set()
