@@ -2,7 +2,7 @@ import unittest
 import RTXCurieUtil as rcu
 
 
-class MyTestCase(unittest.TestCase):
+class RTXCurieUtilTestCase(unittest.TestCase):
     def test_convert_rtx_curie_id_to_bt_explorer_input(self):
         test_data = {
             "KEGG:C00022": ("kegg.compound", "C00022"),
