@@ -51,8 +51,6 @@ class QueryEBIOLSExtended:
             return ols_results['data'][0]['output']['object']['id'][len('goDescription') + 1:]
 
 if __name__ == '__main__':
-
-
     print('UBERON:0004476', QueryEBIOLSExtended().get_anatomy_description('UBERON:0004476'))
     print('UBERON:00044760', QueryEBIOLSExtended().get_anatomy_description('UBERON:00044760'))
     print('CL:0000038', QueryEBIOLSExtended().get_anatomy_description('CL:0000038'))
