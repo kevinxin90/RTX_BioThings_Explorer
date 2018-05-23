@@ -16,7 +16,7 @@ class QueryChEMBL:
     def get_target_uniprot_ids_for_chembl_id(self, chembl_id):
         target_predictions_list = self.biothings_explorer.send_query_get(input_prefix='chembl.compound', output_prefix='uniprot', input_value=chembl_id)
         res_targets_dict = dict()
-        res_targets_dict = {_doc['output']['object']['id']: float(_doc['output']['edge']['probability']) for _doc in target_predictions_list['data'] if 'edge' in _doc['output'] and 
+        res_targets_dict = {_doc['output']['object']['id'].split(":")[1]: float(_doc['output']['edge']['probability']) for _doc in target_predictions_list['data'] if 'edge' in _doc['output'] and
                             'probability' in _doc['output']['edge'] and _doc['output']['object']['taxonomy']=='9606'}
         return res_targets_dict
 
