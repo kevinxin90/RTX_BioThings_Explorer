@@ -8,6 +8,11 @@ class QueryDisont:
     def __init__(self):
         self.biothings_explorer = QueryBioThingsExplorer()
 
+    def query_disont_to_child_disonts(self, disont_id):
+        results = self.query_disont_to_child_disonts_desc(disont_id)
+        if results:
+            return set([int(_doc.split(':')[1]) for _doc in results.keys()])
+
     def query_disont_to_child_disonts_desc(self, disont_id):
         disont_id = disont_id.split(':')[-1]
         disont_results = self.biothings_explorer.send_query_get(input_prefix='do', output_prefix="do", input_value=disont_id)
@@ -33,6 +38,7 @@ class QueryDisont:
             return set()
 
 if __name__ == '__main__':
+    print(QueryDisont().query_disont_to_child_disonts("DOID:9352"))
     print(QueryDisont().query_disont_to_label("DOID:0050741"))
     print(QueryDisont().query_disont_to_mesh_id("DOID:9352"))
     print(QueryDisont().query_disont_to_mesh_id("DOID:1837"))
