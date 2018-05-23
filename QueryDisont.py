@@ -12,6 +12,8 @@ class QueryDisont:
         results = self.query_disont_to_child_disonts_desc(disont_id)
         if results:
             return set([int(_doc.split(':')[1]) for _doc in results.keys()])
+        else:
+            return None
 
     def query_disont_to_child_disonts_desc(self, disont_id):
         disont_id = disont_id.split(':')[-1]
