@@ -25,8 +25,11 @@ class QueryPharos:
 
     def query_drug_name(self, ligand_id):
         pharos_results = self.biothings_explorer.send_query_get(input_prefix='pharos.ligand', output_prefix="drugname", input_value=ligand_id)
-        drug_name = set([_doc['output']['object']['id'].split(':')[-1] for _doc in pharos_results['data']])
-        return drug_name
+        if pharos_results:
+            drug_name = pharos_results['data'][0]['output']['object']['id'].split(':')[-1]
+            return drug_name
+        else:
+            return None
 
     def query_disease_name(self, disease_id):
         pharos_results = self.biothings_explorer.send_query_get(input_prefix='pharos.disease', output_prefix="diseasename", input_value=disease_id)
@@ -99,6 +102,21 @@ class QueryPharos:
         else:
             return None
 
+    def query_disease_id_by_name(self, disease_name):
+        pharos_results = self.biothings_explorer.send_query_get(input_prefix='diseasename', output_prefix="pharos.disease", input_value=disease_name)
+        if pharos_results:
+            disease_id = None
+            for _result in pharos_results['data']:
+                if _result['output']['object']['secondary-id'] == ('diseasename:' + disease_name):
+                    disease_id = _result['output']['object']['id'].split(':')[-1]
+            if disease_id:
+                return int(disease_id)
+            else:
+                return None
+
+        else:
+            return None
+
 if __name__ == '__main__':
     #print(QueryPharos().query_drug_id_by_name('paclitaxel'))
     #print(QueryPharos().query_drug_to_targets("254599"))
@@ -107,5 +125,6 @@ if __name__ == '__main__':
     #print(QueryPharos().query_drug_id_by_name("lovastatin"))
     #print(QueryPharos().query_drug_to_targets("1"))
     #print(QueryPharos().query_target_uniprot_accession("1"))  
-    print(QueryPharos().query_target_to_drugs("16012"))
-    print(QueryPharos().query_target_name("852"))
+    #print(QueryPharos().query_target_to_drugs("16012"))
+    #print(QueryPharos().query_target_name("852"))
+    print(QueryPharos().query_drug_name("1"))
