@@ -11,7 +11,7 @@ class QueryMyChem:
         if chembl_results:
             return chembl_results['data'][0]['output']['object']['id'][len("chemicalDescription") + 1:]
         else:
-            return None
+            return "None"  # See https://github.com/RTXteam/RTX/issues/140
     
     def get_mesh_id(self, chemical_substance_id):
         chembl_id = chemical_substance_id.replace("ChEMBL:", "CHEMBL")
