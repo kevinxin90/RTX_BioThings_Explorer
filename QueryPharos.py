@@ -35,7 +35,7 @@ class QueryPharos:
 
     def query_target_uniprot_accession(self, target_id):
         pharos_results = self.biothings_explorer.send_query_get(input_prefix='pharos.target', output_prefix="uniprot", input_value=target_id)
-        uniprot = set([_doc['output']['object']['id'].split(':')[-1] for _doc in pharos_results['data']])
+        uniprot = [_doc['output']['object']['id'].split(':')[-1] for _doc in pharos_results['data']]
         return uniprot
 
     def query_target_name(self, target_id):
