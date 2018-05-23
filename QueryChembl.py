@@ -35,6 +35,7 @@ class QueryChEMBL:
             return res_uniprot_ids
     
     def test(self):
+        print(QueryChEMBL().get_chembl_ids_for_drug('lovastatin'))
         print(QueryChEMBL().get_chembl_ids_for_drug('acetaminophen'))
         print(QueryChEMBL().get_target_uniprot_ids_for_drug('clothiapine'))
         
