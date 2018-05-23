@@ -48,19 +48,27 @@ class QueryPharos:
         if pharos_results:
             ret_ids = []
             for _doc in pharos_results['data']:
+                
+                print(_doc)
                 ret_ids.append({'id': _doc['output']['object']['id'].split(':')[-1], 
-                                'label': _doc['output']['object']['secondary-id'].split(':')[-1]})
+                                'label': _doc['output']['object']['secondary-id'].split(':')[-1]
+                                })
             return ret_ids
         else:
             return []
 
     def query_target_to_drugs(self, target_id):
         pharos_results = self.biothings_explorer.send_query_get(input_prefix='pharos.target', output_prefix="pharos.ligand", input_value=target_id)
-        ret_ids = []
-        for _doc in pharos_results['data']:
-            ret_ids.append({'id': _doc['output']['object']['id'].split(':')[-1], 
-                            'label': _doc['output']['object']['secondary-id'].split(':')[-1]})
-        return ret_ids
+        if pharos_results:
+            ret_ids = []
+            for _doc in pharos_results['data']:
+                if 'edge' in _doc['output']:
+                    ret_ids.append({'id': _doc['output']['object']['id'].split(':')[-1], 
+                                    'label': _doc['output']['object']['secondary-id'].split(':')[-1],
+                                    'action': _doc['output']['edge']['label']})
+            return ret_ids
+        else:
+            return []
 
     def query_target_to_diseases(self, target_id):
         pharos_results = self.biothings_explorer.send_query_get(input_prefix='pharos.target', output_prefix="pharos.disease", input_value=target_id)
@@ -85,10 +93,11 @@ class QueryPharos:
             return None
 
 if __name__ == '__main__':
-    print(QueryPharos().query_drug_id_by_name('paclitaxel'))
-    print(QueryPharos().query_drug_to_targets("254599"))
-    print(QueryPharos().query_drug_to_targets("1"))
-    print(QueryPharos().query_drug_id_by_name('clothiapine'))
-    print(QueryPharos().query_drug_id_by_name("lovastatin"))
-    print(QueryPharos().query_drug_to_targets("1"))
-    print(QueryPharos().query_target_uniprot_accession("1"))  
+    #print(QueryPharos().query_drug_id_by_name('paclitaxel'))
+    #print(QueryPharos().query_drug_to_targets("254599"))
+    #print(QueryPharos().query_drug_to_targets("1"))
+    #print(QueryPharos().query_drug_id_by_name('clothiapine'))
+    #print(QueryPharos().query_drug_id_by_name("lovastatin"))
+    #print(QueryPharos().query_drug_to_targets("1"))
+    #print(QueryPharos().query_target_uniprot_accession("1"))  
+    print(QueryPharos().query_target_to_drugs("16012"))
