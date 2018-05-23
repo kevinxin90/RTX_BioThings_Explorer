@@ -17,7 +17,8 @@ class QueryDisontTestCase(unittest.TestCase):
         self.assertSetEqual(bte_result, rtx_result)
 
     def test_query_disont_to_child_disonts_desc(self):
-        # TODO: RTX gets {'DOID:11712': 'lipoatrophic diabetes'} while BioThings Explorer gets {'DOID:11712': 'lipoatrophic diabetes mellitus'}
+        # RTX gets {'DOID:11712': 'lipoatrophic diabetes'} while
+        # BioThings Explorer gets {'DOID:11712': 'lipoatrophic diabetes mellitus'}
 
         # bte_result = self.disont.query_disont_to_child_disonts_desc("DOID:9352")
         # rtx_result = {'DOID:10182': 'diabetic peripheral angiopathy',
