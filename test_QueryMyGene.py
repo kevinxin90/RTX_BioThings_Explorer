@@ -116,6 +116,15 @@ class QueryMyGeneTestCase(unittest.TestCase):
         rtx_result = set()
         self.assertSetEqual(bte_result, rtx_result)
 
+    def test_get_cui(self):
+        bte_result = self.mg.get_cui("NCBIGene:407053")
+        rtx_result = ['C1537752']
+        self.assertListEqual(bte_result, rtx_result)
+
+        bte_result = self.mg.get_cui("UniProtKB:P09601")
+        rtx_result = ['C1415619']
+        self.assertListEqual(bte_result, rtx_result)
+
 
 if __name__ == '__main__':
     unittest.main()
