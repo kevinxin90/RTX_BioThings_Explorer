@@ -48,10 +48,8 @@ class QueryPharos:
         if pharos_results:
             ret_ids = []
             for _doc in pharos_results['data']:
-                
-                print(_doc)
                 ret_ids.append({'id': _doc['output']['object']['id'].split(':')[-1], 
-                                'label': _doc['output']['object']['secondary-id'].split(':')[-1]
+                                'name': _doc['output']['object']['secondary-id'].split(':')[-1]
                                 })
             return ret_ids
         else:
