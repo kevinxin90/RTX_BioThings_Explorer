@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
                      'and pathways resulting in the formation of tumor necrosis factor, an inflammatory cytokine ' \
                      'produced by macrophages/monocytes during acute inflammation and which is responsible for a ' \
                      'diverse range of signaling events within cells, leading to necrosis or apoptosis. '
-
+        # TODO: BioThings Explorer API will truncate the long string
         self.assertEqual(bte_result, rtx_result)
 
         bte_result = self.ebiols.get_bio_process_description("GO:00425350")
@@ -84,6 +84,7 @@ class MyTestCase(unittest.TestCase):
         bte_result = self.ebiols.get_cellular_component_description('GO:00046890')
         rtx_result = 'None'
         self.assertEqual(bte_result, rtx_result)
+
 
 if __name__ == '__main__':
     unittest.main()
