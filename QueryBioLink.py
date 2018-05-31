@@ -1,6 +1,3 @@
-import requests
-import sys
-
 from QueryBioThingsExplorer import QueryBioThingsExplorer
 
 class QueryBioLink():
@@ -38,7 +35,7 @@ class QueryBioLink():
             res_list = {_doc['output']['object']['id'].upper(): _doc['output']['object']['secondary-id'][len("diseasename")+1:] for _doc in results['data']}
             return res_list
         else:
-            return []
+            return dict()
 
     def get_genes_for_disease_desc(self, disease_id):
         disease_id = disease_id.split(':')[-1]
@@ -50,8 +47,16 @@ class QueryBioLink():
             return []
 
     def get_phenotypes_for_disease_desc(self, disease_id):
-        disease_id = disease_id.split(':')[-1]
-        results = self.biothings_explorer.send_query_get(input_prefix='omim.disease', output_prefix='hp', input_value=disease_id)
+        if disease_id.startswith("DOID:"):
+            input_prefix = "do"
+            input_value = disease_id[5:]
+        elif disease_id.startswith("OMIM:"):
+            input_prefix = "omim.disease"
+            input_value = disease_id[5:]
+        else:
+            raise ValueError("Support DOID and OMIM only. Got {}".format(disease_id))
+
+        results = self.biothings_explorer.send_query_get(input_prefix=input_prefix, output_prefix='hp', input_value=input_value)
         if results:
             res_dict = {_doc['output']['object']['id'].upper(): _doc['output']['object']['secondary-id'].split(':')[-1] for _doc in results['data']}
             return res_dict
