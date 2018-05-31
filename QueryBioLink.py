@@ -94,8 +94,8 @@ class QueryBioLink():
         anatomy_id = anatomy_id.split(':')[-1]
         results = self.biothings_explorer.send_query_get(input_prefix='uberon', output_prefix='hgnc', input_value=anatomy_id)
         if results:
-            res_dict = [_doc['output']['object']['id'].upper() for _doc in results['data']]
-            return res_dict
+            res_list = [_doc['output']['object']['id'].upper() for _doc in results['data']]
+            return res_list
         else:
             return None
 
