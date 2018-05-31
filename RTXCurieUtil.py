@@ -34,7 +34,7 @@ def convert_rtx_curie_id_to_bt_explorer_input(curie_id):
     UBERON --> as is
     CL --> as is (e.g "CL:0000492")
     GO --> as is
-    DOID --> as is
+    DOID --> split by colon; use the second part as input value (Not compatible with identifiers.org)
     OMIM --> split by colon; use the second part as input value
     HP --> as is
     NCBIGene --> split bycolon; use the second part as input value
@@ -43,7 +43,7 @@ def convert_rtx_curie_id_to_bt_explorer_input(curie_id):
     """
 
     curie_prefix, curie_value = curie_id.split(":")
-    if curie_prefix in ("KEGG", "UniProtKB", "OMIM", "NCBIGene", "REACT"):
+    if curie_prefix in {"KEGG", "UniProtKB", "DOID", "OMIM", "NCBIGene", "REACT"}:
         bte_input_value = curie_value
     elif curie_prefix == "ChEMBL":
         bte_input_value = "CHEMBL" + curie_value
