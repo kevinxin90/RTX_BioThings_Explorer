@@ -8,7 +8,7 @@ class QueryMyChemTestCase(unittest.TestCase):
         cls.mc = QueryMyChem()
 
     def test_get_chemical_substance_entity(self):
-        self.skip("Not implemented because it's not a general-purpose method to BioThings Explorer")
+        self.skipTest("Not implemented because it's not a general-purpose method to BioThings Explorer")
 
     def test_get_chemical_substance_description(self):
         bte_result = self.mc.get_chemical_substance_description("ChEMBL:154")
