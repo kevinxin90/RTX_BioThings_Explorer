@@ -7,43 +7,10 @@ from QueryBioThingsExplorer import QueryBioThingsExplorer
 class QueryReactome:
     def __init__(self):
         self.biothings_explorer = QueryBioThingsExplorer()
-        self.SPECIES_MNEMONICS = ['BOVIN',
-                                  'ACAVI',
-                                  'VACCW',
-                                  'PLAVS',
-                                  'CHICK',
-                                  'ECOLI',
-                                  'HORSE',
-                                  'MAIZE',
-                                  'MOUSE',
-                                  'PEA',
-                                  'PIG',
-                                  'RABIT',
-                                  'RAT',
-                                  'SHEEP',
-                                  'SOYBN',
-                                  'TOBAC',
-                                  'WHEAT',
-                                  'YEAST',
-                                  'HV1N5',
-                                  'HV1H2',
-                                  'DANRE',
-                                  'XENLA',
-                                  'MYCTU',
-                                  'HHV8P',
-                                  'HTLV2',
-                                  'HHV1',
-                                  'HPV16',
-                                  '9HIV1',
-                                  'EBVB9',
-                                  'PROBE',
-                                  'HTL1C',
-                                  'I72A2',
-                                  'SV40',
-                                  'HV1B1',
-                                  'SCHPO',
-                                  'RUBV',
-                                  'MUS']
+        self.SPECIES_MNEMONICS = ['BOVIN', 'ACAVI', 'VACCW', 'PLAVS', 'CHICK', 'ECOLI', 'HORSE', 'MAIZE', 'MOUSE',
+                                  'PEA', 'PIG', 'RABIT', 'RAT', 'SHEEP', 'SOYBN', 'TOBAC', 'WHEAT', 'YEAST', 'HV1N5',
+                                  'HV1H2', 'DANRE', 'XENLA', 'MYCTU', 'HHV8P', 'HTLV2', 'HHV1', 'HPV16', '9HIV1',
+                                  'EBVB9', 'PROBE', 'HTL1C', 'I72A2', 'SV40', 'HV1B1', 'SCHPO', 'RUBV', 'MUS']
 
     def is_valid_uniprot_accession(self, accession_str):
         return re.match("[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}",
@@ -110,12 +77,9 @@ class QueryReactome:
         reactome_ids_dict = dict()
         if res:
             for _doc in res['data']:
-                res_id = _doc['output']['object']['id']
-                if 'R-HSA-' in res_id:
-                    reactome_ids_dict[res_id] = _doc['output']['object']['secondary-id'].replace('reactome.displayname',
-                                                                                                 '')
-                else:
-                    pass  # print('Non-human Reactome pathway: ' + res_id)
+                res_id = _doc['output']['object']['id'].split(':')[1]
+                if res_id.startswith('R-HSA-'):
+                    reactome_ids_dict[res_id] = _doc['output']['object']['secondary-id'][len("reactome.displayname:"):]
         return reactome_ids_dict
 
     def __query_reactome_entity_id_to_reactome_pathway_ids_desc(self, reactome_entity_id):
@@ -124,23 +88,19 @@ class QueryReactome:
         reactome_ids_dict = dict()
         if res:
             for _doc in res['data']:
-                res_id = _doc['output']['object']['id']
-                if 'R-HSA-' in res_id:
-                    reactome_ids_dict[res_id] = _doc['output']['object']['secondary-id']
-                else:
-                    pass  # print('Non-human Reactome pathway: ' + res_id)
+                res_id = _doc['output']['object']['id'].split(':')[1]
+                if res_id.startswith('R-HSA-'):
+                    reactome_ids_dict[res_id] = _doc['output']['object']['secondary-id'][len("reactome.displayname:"):]
         return reactome_ids_dict
 
     def query_uniprot_id_to_reactome_pathway_ids_desc(self, uniprot_id):
         reactome_entity_ids = self.__query_uniprot_to_reactome_entity_id(uniprot_id)
         res_dict = dict()
         for reactome_entity_id in reactome_entity_ids:
-            if 'R-HSA-' in reactome_entity_id:
+            if reactome_entity_id.startswith('R-HSA-'):
                 pathway_ids_dict = self.__query_reactome_entity_id_to_reactome_pathway_ids_desc(reactome_entity_id)
                 if len(pathway_ids_dict) > 0:
                     res_dict.update(pathway_ids_dict)
-                else:
-                    pass  # print('Non-human Reactome entity: ' + reactome_entity_id + ' from Uniprot ID: ' + uniprot_id, file=sys.stderr)
         return res_dict
 
     def query_reactome_pathway_id_to_uniprot_ids_desc(self, reactome_pathway_id):
@@ -159,7 +119,7 @@ class QueryReactome:
                     if '-' in uniprot_id:
                         uniprot_id = uniprot_id.split('-')[0]
                     ret_dict[uniprot_id] = prot_desc
-                #            uniprot_ids_list = [[id.split(' ')[0].split(':')[1], id.split(' ')[1]] for id in participant_ids_list if 'UniProt:' in id]
+                    #            uniprot_ids_list = [[id.split(' ')[0].split(':')[1], id.split(' ')[1]] for id in participant_ids_list if 'UniProt:' in id]
         return ret_dict
 
     def test(self):
