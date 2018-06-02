@@ -111,7 +111,7 @@ class QueryReactome:
             participant_ids_list = [_doc['output']['object']['secondary-id'] for _doc in res['data']]
             for participant_id in participant_ids_list:
                 if 'UniProt:' in participant_id:
-                    uniprot_id = participant_id.split(' ')[0].split(':')[1]
+                    uniprot_id = participant_id.split(' ')[0].split(':')[-1]
                     if ' ' in participant_id:
                         prot_desc = participant_id.split(' ')[1]
                     else:
@@ -119,7 +119,6 @@ class QueryReactome:
                     if '-' in uniprot_id:
                         uniprot_id = uniprot_id.split('-')[0]
                     ret_dict[uniprot_id] = prot_desc
-                    #            uniprot_ids_list = [[id.split(' ')[0].split(':')[1], id.split(' ')[1]] for id in participant_ids_list if 'UniProt:' in id]
         return ret_dict
 
     def test(self):
