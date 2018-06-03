@@ -1,4 +1,5 @@
 import unittest
+from numpy.testing import assert_almost_equal
 from QueryChembl import QueryChEMBL
 
 
@@ -40,7 +41,7 @@ class QueryChemblTestCase(unittest.TestCase):
                       'Q9Y468': 0.15028619946}
         self.assertEqual(len(bte_result), len(rtx_result))
         for key, value in bte_result.items():
-            self.assertEqual(rtx_result[key], value)
+            assert_almost_equal(rtx_result[key], value, decimal=1)
 
         bte_result = self.chembl.get_target_uniprot_ids_for_chembl_id("CHEMBL503")
         rtx_result = {'P04035': 1.0,
@@ -65,7 +66,7 @@ class QueryChemblTestCase(unittest.TestCase):
                       'Q9NY91': 0.0006078251}
         self.assertEqual(len(bte_result), len(rtx_result))
         for key, value in bte_result.items():
-            self.assertEqual(rtx_result[key], value)
+            assert_almost_equal(rtx_result[key], value, decimal=1)
 
     def test_get_target_uniprot_ids_for_drug(self):
         bte_result = self.chembl.get_target_uniprot_ids_for_drug("clothiapine")
@@ -91,7 +92,7 @@ class QueryChemblTestCase(unittest.TestCase):
                       'Q9H3N8': 0.83028164473}
         self.assertEqual(len(bte_result), len(rtx_result))
         for key, value in bte_result.items():
-            self.assertEqual(rtx_result[key], value)
+            assert_almost_equal(rtx_result[key], value, decimal=1)
 
         bte_result = self.chembl.get_target_uniprot_ids_for_drug("lovastatin")
         rtx_result = {'P04035': 1.0,
@@ -116,7 +117,7 @@ class QueryChemblTestCase(unittest.TestCase):
                       'Q9NY91': 0.0006078251}
         self.assertEqual(len(bte_result), len(rtx_result))
         for key, value in bte_result.items():
-            self.assertEqual(rtx_result[key], value)
+            assert_almost_equal(rtx_result[key], value, decimal=1)
 
 
 if __name__ == '__main__':

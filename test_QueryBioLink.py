@@ -96,10 +96,9 @@ class MyTestCase(unittest.TestCase):
         self.assertListEqual(bte_result, rtx_result)
 
     def test_get_label_for_phenotype(self):
-        bte_result = self.bl.get_label_for_phenotype("HP:0000003")  # Would be "Multicystic dysplastic kidney"
-        # rtx_result = 'Multicystic kidney dysplasia'
-        # self.assertEqual(bte_result, rtx_result)
-        self.assertEqual(bte_result, "Multicystic dysplastic kidney")
+        bte_result = self.bl.get_label_for_phenotype("HP:0000003")
+        rtx_result = 'Multicystic kidney dysplasia'
+        self.assertEqual(bte_result, rtx_result)
 
     def test_get_phenotypes_for_gene(self):
         bte_result = self.bl.get_phenotypes_for_gene("NCBIGene:4750")
